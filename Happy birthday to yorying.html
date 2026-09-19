@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Love Package</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7ECE6;
+    --paper-dark:#EEDDD3;
+    --ink:#3B2A2E;
+    --rose:#B33951;
+    --rose-deep:#8C283C;
+    --gold:#C9A227;
+    --card:#FFFDFB;
+    --line:rgba(59,42,46,0.14);
+    --font-display: <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">;
+    --font-body: <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#231A1C;
+      --paper-dark:#2B2022;
+      --ink:#F3E7E2;
+      --card:#2F2426;
+      --line:rgba(243,231,226,0.14);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#231A1C;
+    --paper-dark:#2B2022;
+    --ink:#F3E7E2;
+    --card:#2F2426;
+    --line:rgba(243,231,226,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 20% 10%, var(--paper-dark), var(--paper) 60%);
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 24px 16px;
+    overflow-x:hidden;
+  }
+
+  .stage{
+    width:100%;
+    max-width:480px;
+    position:relative;
+  }
+
+  .screen{
+    display:none;
+    animation: fadeIn .5s ease;
+  }
+  .screen.active{ display:block; }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform: translateY(8px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  h1,h2{
+    font-family: var(--font-display);
+    font-weight:600;
+    margin:0 0 6px 0;
+    line-height:1.15;
+  }
+  .eyebrow{
+    font-size: 0.95rem;
+    color: var(--rose-deep);
+    margin: 0 0 18px 0;
+  }
+  p{ line-height:1.7; margin: 0 0 12px 0; }
+
+  .center{ text-align:center; }
+
+  /* ---------- Landing ---------- */
+  #screen-landing{ text-align:center; padding-top: 8vh; }
+  #screen-landing h1{ font-size: 1.9rem; margin-bottom: 28px; }
+  .box-wrap{
+    width: 220px;
+    margin: 0 auto 28px auto;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .box-wrap svg{ width:100%; height:auto; display:block; }
+  .lid{ transform-origin: center; transition: transform .6s ease, opacity .6s ease;}
+  .box-wrap.opening .lid{ transform: translateY(-160px) rotateX(10deg); opacity: 0; }
+  .box_wrap.opening{ animation: boxDisappear .6s ease .35s forwards; }
+  @keyframes boxDisappear{
+    to{ opacity: 0; transform: scale(0.85)}
+  }
+  .tap-hint{
+    font-size: 0.95rem;
+    color: var(--ink);
+    opacity: .65;
+  }
+
+  /* ---------- Menu ---------- */
+  .progress-pill{
+    display:inline-block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    margin: 4px 0 24px 0;
+  }
+  .item-list{ display:flex; flex-direction:column; gap:12px; }
+  .item-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .item-card:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+  .item-card.locked{ opacity:.5; cursor:default; }
+  .item-card.locked:hover{ transform:none; box-shadow:none; }
+  .item-emoji{ font-size:1.6rem; width: 40px; text-align:center; flex-shrink:0; }
+  .item-text{ flex:1; }
+  .item-title{ font-weight:600; font-size:1.02rem; }
+  .item-sub{ font-size:0.85rem; opacity:.7; margin-top:2px; }
+  .item-check{
+    font-size:0.78rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    white-space:nowrap;
+    color: var(--rose-deep);
+  }
+
+  /* ---------- Detail pages ---------- */
+  .back-link{
+    display:inline-block;
+    margin-bottom: 18px;
+    font-size:0.9rem;
+    color: var(--ink);
+    opacity:.7;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .back-link:hover{ opacity:1; }
+
+  .polaroid{
+    background:#fff;
+    padding: 10px 10px 34px 10px;
+    border-radius: 4px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    margin: 0 auto 22px auto;
+    max-width: 320px;
+    transform: rotate(-1.5deg);
+  }
+  .polaroid:nth-child(even){ transform: rotate(1.5deg); }
+  .polaroid img{ width:100%; display:block; border-radius:2px; background:#ddd; aspect-ratio: 4/5; object-fit:cover;}
+  .polaroid .cap{
+    color:#333;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-align:center;
+    margin-top: 10px;
+  }
+  .polaroid img{ cursor: pointer; }
+
+.lightbox{
+  display:none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn .25s ease;
+}
+.lightbox.active{ display:flex; }
+.lightbox img{
+  max-width: 92vw;
+  max-height: 85vh;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: popIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{
+  from{ transform: scale(0.7); opacity: 0; }
+  to{ transform: scale(1); opacity: 1; }
+}
+
+  .letter-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 24px;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 22px;
+  }
+  .btn{
+    display:inline-block;
+    background: var(--rose);
+    color:#fff;
+    border:none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    font-family: var(--font-body);
+    font-weight:600;
+    font-size: 1rem;
+    cursor:pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover{ background: var(--rose-deep); transform: translateY(-1px); }
+  .btn-gold{ background: var(--gold); color:#3a2a06; }
+  .btn-gold:hover{ background:#b08e1f; }
+
+  .reasons-box{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+  .reason-item{
+    display:flex;
+    gap:10px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.98rem;
+  }
+  .reason-item:last-child{ border-bottom:none; }
+  .reason-num{ color: var(--rose); font-weight:600; flex-shrink:0; }
+
+  /* ---------- Game ---------- */
+  .game-hud{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.9rem;
+    margin-bottom: 10px;
+    opacity:.8;
+  }
+  .game-field{
+    position:relative;
+    width:100%;
+    height: 320px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow:hidden;
+  }
+  .heart{
+    position:absolute;
+    font-size: 1.7rem;
+    cursor:pointer;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .1s ease;
+  }
+  .heart:active{ transform: scale(1.3); }
+  .game-overlay{
+    position:absolute;
+    inset:0;
+    background: rgba(247,236,230,0.92);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 20px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .game-overlay{ background: rgba(35,26,28,0.92); }
+  }
+  :root[data-theme="dark"] .game-overlay{ background: rgba(35,26,28,0.92); }
+
+  /* ---------- Final ---------- */
+  #screen-final{ text-align:center; padding-top: 6vh; position:relative; }
+  .confetti{
+    position:fixed;
+    top:-20px;
+    width:8px;
+    height:14px;
+    opacity:.85;
+    z-index: 0;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(360deg); opacity: .3; }
+  }
+  .final-heart{ font-size: 2.4rem; margin-bottom: 14px; }
+
+  .footer-note{
+    text-align:center;
+    font-size: 0.78rem;
+    opacity: .45;
+    margin-top: 28px;
+  }
+  .game-end-img{
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  animation: gamePop .45s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes gamePop{
+  from{ transform: scale(0); opacity:0; }
+  to{ transform: scale(1); opacity:1; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- ============ SCREEN 1: LANDING ============ -->
+  <section class="screen active" id="screen-landing">
+    <h1>พัสดุถึงยอหญิง ❤️</h1>
+    <div class="box-wrap" id="boxWrap" onclick="openBox()">
+      <svg viewBox="0 0 200 150">
+        <rect x="10" y="60" width="180" height="80" rx="4" fill="#C98A4B"/>
+        <rect x="10" y="58" width="180" height="10" fill="#B5763A"/>
+        <rect x="88" y="60" width="24" height="80" fill="#E9C68C"/>
+        <g class="lid">
+          <rect x="10" y="45" width="180" height="22"fill="#DDA262"/>
+        </g>
+        <rect x="55" y="80" width="90" height="46" fill="#FBF6EE" stroke="#c9b79a" stroke-width="1"/>
+        <text x="100" y="98" font-size="9" text-anchor="middle" font-family="Sarabun, sans-serif" font-weight="700" fill="#3B2A2E">Suchawadee</text>
+        <text x="100" y="109" font-size="9" text-anchor="middle" font-family="Sarabun, sans-serif" font-weight="700" fill="#3B2A2E">Pongkris</text>
+      </svg>
+    </div>
+    <p class="tap-hint">แตะเพื่อเปิด</p>
+  </section>
+
+  <!-- ============ SCREEN 2: MENU ============ -->
+  <section class="screen" id="screen-menu">
+    <h2 class="center">ข้างในพัสดุ</h2>
+    <div class="center"><span class="progress-pill" id="progressPill">เปิดแล้ว 0 / 4</span></div>
+    <div class="item-list">
+      <div class="item-card" onclick="goTo('photo')">
+        <div class="item-emoji">📷</div>
+        <div class="item-text">
+          <div class="item-title">ภาพความทรงจำ</div>
+          <div class="item-sub">ช่วงเวลาโปรดของเรา</div>
+        </div>
+        <span class="item-check" id="check-photo" style="display:none;">เปิดแล้ว</span>
+      </div>
+      <div class="item-card" onclick="goTo('letter')">
+        <div class="item-emoji">💌</div>
+        <div class="item-text">
+          <div class="item-title">จดหมายรัก</div>
+          <div class="item-sub">สิ่งที่ไม่เคยพูดออกมา</div>
+        </div>
+        <span class="item-check" id="check-letter" style="display:none;">เปิดแล้ว</span>
+      </div>
+      <div class="item-card" onclick="goTo('reasons')">
+        <div class="item-emoji">📜</div>
+        <div class="item-text">
+          <div class="item-title">เหตุผลที่รักเธอ</div>
+          <div class="item-sub">ม้วนกระดาษความรู้สึกที่มีให้เธอ</div>
+        </div>
+        <span class="item-check" id="check-reasons" style="display:none;">เปิดแล้ว</span>
+      </div>
+      <div class="item-card" onclick="goTo('game')">
+        <div class="item-emoji">🕹️</div>
+        <div class="item-text">
+          <div class="item-title">เกมจับหัวใจ</div>
+          <div class="item-sub">แตะหัวใจให้ทันก่อนตกพื้น!</div>
+        </div>
+        <span class="item-check" id="check-game" style="display:none;">เปิดแล้ว</span>
+      </div>
+      <div class="item-card locked" id="finalCard" onclick="tryFinal()">
+        <div class="item-emoji">❤️</div>
+        <div class="item-text">
+          <div class="item-title">ความทรงจำสุดท้าย</div>
+          <div class="item-sub" id="finalSub">ล็อกอยู่ — เปิดให้ครบก่อนนะ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3: PHOTO MEMORIES ============ -->
+  <section class="screen" id="screen-photo">
+    <span class="back-link" onclick="goTo('menu')">← กลับไปที่พัสดุ</span>
+    <h2 class="center">ภาพความทรงจำ</h2>
+    <p class="center eyebrow">แตะที่รูป</p>
+    <!-- CUSTOMIZE: swap the src of each <img> with your own photo (a URL, or a data: URI) -->
+    <div class="polaroid">
+      <img src="31895.jpg" alt="ความทรงจำ 1"<img src="photo1.jpg" alt="ความทรงจำ 1" onclick="openLightbox(this.src)" style="background:linear-gradient(135deg,#e7c9a9,#c98a4b);">
+    </div>
+    <div class="polaroid">
+      <img src="31896.jpg" alt="ความทรงจำ 2"<img src="photo1.jpg" alt="ความทรงจำ 1" onclick="openLightbox(this.src)" style="background:linear-gradient(135deg,#a9d0e7,#4b8ac9);">
+      
+    </div>
+    <div class="polaroid">
+        <img src="31897.jpg" alt="ความทรงจำ 3"<img src="photo1.jpg" alt="ความทรงจำ 1" onclick="openLightbox(this.src)" style="background:linear-gradient(135deg,#a9e7c9,#4b9ac9);">
+        
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 4: LOVE LETTER ============ -->
+  <section class="screen" id="screen-letter">
+    <span class="back-link" onclick="goTo('menu')">← กลับไปที่พัสดุ</span>
+    <h2 class="center">จดหมายรัก</h2>
+    <p class="center eyebrow">เขียนด้วยใจ</p>
+    <!-- CUSTOMIZE: replace this text with your own letter -->
+    <div class="letter-card">
+      <p>ถึงอ้วนคับ,</p>
+      <p>ปีนี้ก็อายุ 19 แล้วน้า เป็นเด็กมหาลัยครั้งแรกด้วยมันจะยากหน่อยนะสู้ต่อไปน้า</p>
+      <p>ขอบคุณที่เป็นความสุขของเค้านะ สุขสันต์วันเกิดนะคะ</p>
+      <p>รักมากๆเลยนะ ขอให้เป็น 19 ที่ดีตลอดไปนะคะ</p>
+    </div>
+    <div class="center"><button class="btn" onclick="markOpened('letter')">💗 กอดหน่อย</button></div>
+  </section>
+
+  <!-- ============ SCREEN 5: 100 REASONS ============ -->
+  <section class="screen" id="screen-reasons">
+    <span class="back-link" onclick="goTo('menu')">← กลับไปที่พัสดุ</span>
+    <h2 class="center">เหตุผลที่รักเธอ</h2>
+    <p class="center eyebrow">เลื่อนอ่านได้เรื่อย ๆ</p>
+    <!-- CUSTOMIZE: add/edit/remove <div class="reason-item"> lines below -->
+    <div class="reasons-box" id="reasonsBox">
+      <div class="reason-item"><span class="reason-num">1.</span><span>เพราะยิ้มของอ้วน</span></div>
+      <div class="reason-item"><span class="reason-num">2.</span><span>เพราะเสียงหัวเราะของอ้วน</span></div>
+      <div class="reason-item"><span class="reason-num">3.</span><span>เพราะสายตาที่อ้วนมอง</span></div>
+      <div class="reason-item"><span class="reason-num">4.</span><span>เพราะเพราะอ้วนเป็นคนแรกในทุกวันคนสุดท้ายในทุกคืน</span></div>
+      <div class="reason-item"><span class="reason-num">5.</span><span>เพราะความใจดีที่อ้วนมีให้คนอื่น</span></div>
+      <div class="reason-item"><span class="reason-num">6.</span><span>เพราะความอดทนที่อ้วนมีให้เค้า</span></div>
+      <div class="reason-item"><span class="reason-num">7.</span><span>เพราะวิธีที่อ้วนฟังเค้าตอนมีปัญหา</span></div>
+      <div class="reason-item"><span class="reason-num">8.</span><span>เพราะมือของอ้วนที่จับมือเค้าไว้เสมอ</span></div>
+      <div class="reason-item"><span class="reason-num">9.</span><span>เพราะความน่ารักที่ไม่มีใครเข้าใจนอกจากเค้า</span></div>
+      <div class="reason-item"><span class="reason-num">10.</span><span>เพราะวิธีที่อ้วนทุกวิธีที่อ้วนรักเลย</span></div>
+    </div>
+    <div class="center" style="margin-top:18px;"><button class="btn" onclick="markOpened('reasons')">อ่านครบแล้ว</button></div>
+  </section>
+
+  <!-- ============ SCREEN 6: GAME ============ -->
+  <section class="screen" id="screen-game">
+    <span class="back-link" onclick="goTo('menu')">← กลับไปที่พัสดุ</span>
+    <h2 class="center">เกมจับหัวใจ</h2>
+    <p class="center eyebrow">แตะหัวใจให้ทันก่อนตกพื้น!</p>
+    <div class="game-hud">
+      <span>คะแนน: <b id="gameScore">0</b></span>
+      <span>เวลา: <b id="gameTime">20</b></span>
+    </div>
+    <div class="game-field" id="gameField">
+      <div class="game-overlay" id="gameStartOverlay">
+        <p>แตะหัวใจให้ได้มากที่สุดใน 20 วินาที</p>
+        <button class="btn" onclick="startGame()">เริ่มเกม</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 7: FINAL ============ -->
+  <section class="screen" id="screen-final">
+    <span class="back-link" onclick="goTo('menu')">← กลับไปที่พัสดุ</span>
+    <div class="final-heart">❤️</div>
+    <h2>ขอบคุณ<br>ที่เปิดทุกความทรงจำจนครบ</h2>
+    <p>ทุกช่วงเวลาเล็ก ๆ กับเธอ<br>มีความหมายกับเค้าที่สุดเลยนะ
+    <p style="margin-top:18px;">เค้ารักเธอตลอดไปนะคะ</p>
+    <div style="margin-top:20px;"><button class="btn btn-gold" onclick="celebrate()">รักเธอ</button></div>
+  </section>
+
+  <div class="footer-note">Parcal — made with FOCUS❤️</div>
+</div>
+
+<script>
+  // ---------- state ----------
+  var STORAGE_KEY = 'dlp_opened_v1';
+  var opened = { photo:false, letter:false, reasons:false, game:false };
+  try{
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){ opened = JSON.parse(saved); }
+  }catch(e){}
+
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(opened)); }catch(e){}
+  }
+
+  function screens(){ return document.querySelectorAll('.screen'); }
+
+  function goTo(name){
+    screens().forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('screen-' + name).classList.add('active');
+    if(name === 'menu'){ renderMenu();
+        document.getElementById('bgmusic').load();
+     }
+    window.scrollTo(0,0);
+  }
+
+  function openBox(){
+    var box = document.getElementById('boxWrap');
+    box.classList.add('opening');
+    document.getElementById('bgMusic').play();
+    setTimeout(function(){ goTo('menu'); }, 900);
+  }
+
+  function markOpened(key){
+    opened[key] = true;
+    saveState();
+    goTo('menu');
+  }
+
+  function renderMenu(){
+    var count = 0;
+    ['photo','letter','reasons','game'].forEach(function(k){
+      var el = document.getElementById('check-' + k);
+      if(opened[k]){ el.style.display = 'inline-block'; count++; }
+      else{ el.style.display = 'none'; }
+    });
+    document.getElementById('progressPill').textContent = 'เปิดแล้ว ' + count + ' / 4';
+    var finalCard = document.getElementById('finalCard');
+    var finalSub = document.getElementById('finalSub');
+    if(count === 4){
+      finalCard.classList.remove('locked');
+      finalSub.textContent = 'เปิดได้แล้วนะ ✨';
+    } else {
+      finalCard.classList.add('locked');
+      finalSub.textContent = 'ล็อกอยู่ — เปิดให้ครบก่อนนะ';
+    }
+  }
+
+  function tryFinal(){
+    var count = ['photo','letter','reasons','game'].filter(function(k){ return opened[k]; }).length;
+    if(count === 4){ goTo('final'); }
+  }
+
+  // photo screen just needs a tap/back to count as "opened"
+  document.getElementById('screen-photo').addEventListener('click', function(){
+    if(!opened.photo){ opened.photo = true; saveState(); }
+  });
+
+  // ---------- game ----------
+  var gameRunning = false;
+  var gameScore = 0;
+  var gameTimer = null;
+  var spawnTimer = null;
+  var timeLeft = 20;
+
+  function startGame(){
+    document.getElementById('gameStartOverlay').remove();
+    gameRunning = true;
+    gameScore = 0;
+    timeLeft = 20;
+    document.getElementById('gameScore').textContent = gameScore;
+    document.getElementById('gameTime').textContent = timeLeft;
+
+    spawnTimer = setInterval(spawnHeart, 550);
+    gameTimer = setInterval(function(){
+      timeLeft--;
+      document.getElementById('gameTime').textContent = timeLeft;
+      if(timeLeft <= 0){ endGame(); }
+    }, 1000);
+  }
+
+  function spawnHeart(){
+    var field = document.getElementById('gameField');
+    var heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+    var x = Math.random() * (field.clientWidth - 30);
+    heart.style.left = x + 'px';
+    heart.style.top = '-30px';
+    field.appendChild(heart);
+
+    var duration = 2200 + Math.random()*1200;
+    var startTime = Date.now();
+    var fieldHeight = field.clientHeight;
+
+    function fall(){
+      if(!gameRunning || !heart.parentNode){ return; }
+      var t = (Date.now() - startTime) / duration;
+      if(t >= 1){ heart.remove(); return; }
+      heart.style.top = (t * (fieldHeight + 30) - 30) + 'px';
+      requestAnimationFrame(fall);
+    }
+    requestAnimationFrame(fall);
+
+    heart.addEventListener('click', function(){
+      if(!gameRunning) return;
+      gameScore++;
+      document.getElementById('gameScore').textContent = gameScore;
+      heart.remove();
+    });
+  }
+
+  function endGame(){
+    gameRunning = false;
+    clearInterval(gameTimer);
+    clearInterval(spawnTimer);
+    var field = document.getElementById('gameField');
+    field.querySelectorAll('.heart').forEach(function(h){ h.remove(); });
+    var overlay = document.createElement('div');
+    overlay.className = 'game-overlay';
+    overlay.innerHTML = '<img class="game-end-img" src="31959.jpg"><p>เก็บได้ ' + gameScore + ' ดวงใจ! 💕</p><button class="btn" onclick="markOpened(\'game\')">ไปต่อ</button>';
+    field.appendChild(overlay);
+  }
+
+  // ---------- confetti ----------
+  function celebrate(){
+    var colors = ['#B33951','#C9A227','#EEDDD3','#8C283C'];
+    for(var i=0;i<60;i++){
+      (function(){
+        var c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = (Math.random()*100) + 'vw';
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDuration = (2 + Math.random()*2) + 's';
+        c.style.animationDelay = (Math.random()*0.6) + 's';
+        document.body.appendChild(c);
+        setTimeout(function(){ c.remove(); }, 5000);
+      })();
+    }
+  }
+  function openLightbox(src){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('active');
+}
+
+  renderMenu();
+</script>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="">
+</div>
+
+</body>
+<audio id="bgMusic" src="Y2Mate.is - LANDOKMAI -  Blooming Official MV.mp3" loop preload="auto"></audio>
+</html>
